@@ -1,6 +1,8 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { products, recipes } from "../data/woolworthsMockData";
+import RecipeCard from "./RecipeCard";
 
 export const AiChat = () => {
   const [messages, setMessages] = useState([]);
@@ -46,10 +48,41 @@ export const AiChat = () => {
 
     try {
       const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GoogleGenAI);
+
+      // Construct context from mock data
+      const productList = products
+        .map((p) => `- ${p.name} ($${p.price.toFixed(2)})`)
+        .join("\n");
+      const recipeList = recipes
+        .map((r) => `- ${r.title} (ID: ${r.id})`)
+        .join("\n");
+
       const model = genAI.getGenerativeModel({
-        model: "gemini-3-flash-preview",
-        systemInstruction:
-          "**Role:** You are the official AI Personal Shopper for Woolworths. You are a culinary expert, a budget-conscious strategist, and a friendly guide all rolled into one. Core Directives: 1. **Culinary Inspiration:** If a user mentions an ingredient, suggest a complementary item or a quick meal idea (e.g., if they ask for 'salmon,' suggest 'fresh dill and lemons' or a '15-minute sheet pan recipe'). 2. **Wayfinding:** Direct users to specific aisles or departments. (Note: If specific aisle data is provided in the context, use it accurately). 3. **Budget Consciousness:** Highlight Store Brand(Private Label) alternatives and current seasonal value items when appropriate. 4. **Dietary Guardrails:** Actively flag common allergens if a user asks for Gluten-Free or Vegan recommendations. Always include a disclaimer: Always check the physical label for the most up-to-date allergen info. Operational Rules: **Product Substitutions:** If an item is likely out of stock or niche, suggest a common substitute (e.g., If we're out of Shallots, Yellow Onions are a great backup). **No Medical Advice:** Do not give health or medical advice. Stick to nutritional facts and culinary uses. **Conciseness:** Keep responses punchy. Customers are often on their phones in a busy aisle. **Tone & Voice:** Helpful, energetic, and food-forward. Use we and our to represent the store (e.g., Our bakery just pulled out a fresh batch of sourdough). Use bullet points for shopping lists to ensure readability on mobile screens. Don't mention anything about topics that are not relevant to cooking or meal planning. If the user askes a question that isn't relevant to cooking or meal planning, respond with what meal would you like to create?",
+        model: "gemini-2.5-flash",
+        systemInstruction: `**Role:** You are the official AI Personal Shopper for Woolworths. You are a culinary expert, a budget-conscious strategist, and a friendly guide all rolled into one. 
+
+**Context Data:**
+Here are some products currently in stock:
+${productList}
+
+Here are some recipes you know:
+${recipeList}
+
+**Core Directives:**
+1. **Culinary Inspiration:** If a user mentions an ingredient, suggest a complementary item or a quick meal idea.
+2. **Wayfinding:** Direct users to specific aisles or departments.
+3. **Budget Consciousness:** Highlight Store Brand (Private Label) alternatives and current seasonal value items when appropriate.
+4. **Dietary Guardrails:** Actively flag common allergens if a user asks for Gluten-Free or Vegan recommendations. Always include a disclaimer: "Always check the physical label for the most up-to-date allergen info."
+5. **Recipe Recommendations:** If you recommend a recipe that is in the "Recipes you know" list above, you MUST output a special marker on its own line:
+   \`[RECIPE_CARD: <Exact Recipe Title>]\`
+   For example: \`[RECIPE_CARD: High-protein chicken & smashed pea pasta]\`
+   Do not explain the recipe in text if you use the card, just introduce it.
+
+**Operational Rules:**
+**Product Substitutions:** If an item is likely out of stock or niche, suggest a common substitute.
+**No Medical Advice:** Do not give health or medical advice. Stick to nutritional facts and culinary uses.
+**Conciseness:** Keep responses punchy. Customers are often on their phones in a busy aisle.
+**Tone & Voice:** Helpful, energetic, and food-forward. Use "we" and "our" to represent the store. Use bullet points for shopping lists. Don't mention anything about topics that are not relevant to cooking or meal planning. If the user asks a question that isn't relevant to cooking or meal planning, respond with "what meal would you like to create?"`,
       });
 
       const history = messages.map((msg) => ({
@@ -61,7 +94,6 @@ export const AiChat = () => {
         history: history,
       });
 
-      // Add a placeholder for the AI response
       setMessages((prev) => [...prev, { text: "", sender: "ai" }]);
 
       const result = await chat.sendMessageStream(userMessage);
@@ -71,7 +103,6 @@ export const AiChat = () => {
         const chunkText = chunk.text();
         fullResponse += chunkText;
 
-        // Update the last message (AI's response) with new chunk
         setMessages((prev) => {
           const updatedMessages = [...prev];
           const lastMessage = updatedMessages[updatedMessages.length - 1];
@@ -84,8 +115,6 @@ export const AiChat = () => {
     } catch (error) {
       console.error("Error generating response:", error);
       setMessages((prev) => {
-        // Remove the empty placeholder if it exists and replace/append error
-        // Or just append error
         return [
           ...prev,
           {
@@ -97,6 +126,51 @@ export const AiChat = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Helper function to render message content with potential recipe cards
+  const renderMessageContent = (text) => {
+    // Regex to find [RECIPE_CARD: Title]
+    const recipeRegex = /\[RECIPE_CARD:\s*(.*?)\]/g;
+    const parts = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = recipeRegex.exec(text)) !== null) {
+      // Push text before the match
+      if (match.index > lastIndex) {
+        parts.push(
+          <ReactMarkdown key={`text-${lastIndex}`}>
+            {text.substring(lastIndex, match.index)}
+          </ReactMarkdown>
+        );
+      }
+
+      // Find the recipe object
+      const recipeTitle = match[1].trim();
+      const recipe = recipes.find(
+        (r) => r.title.toLowerCase() === recipeTitle.toLowerCase()
+      );
+
+      if (recipe) {
+        parts.push(
+          <RecipeCard key={`recipe-${match.index}`} recipe={recipe} />
+        );
+      }
+
+      lastIndex = match.index + match[0].length;
+    }
+
+    // Push remaining text
+    if (lastIndex < text.length) {
+      parts.push(
+        <ReactMarkdown key={`text-${lastIndex}`}>
+          {text.substring(lastIndex)}
+        </ReactMarkdown>
+      );
+    }
+
+    return parts.length > 0 ? parts : <ReactMarkdown>{text}</ReactMarkdown>;
   };
 
   return (
@@ -164,7 +238,7 @@ export const AiChat = () => {
             key={index}
             style={{
               alignSelf: msg.sender === "user" ? "flex-end" : "flex-start",
-              maxWidth: "80%",
+              maxWidth: msg.sender === "user" ? "80%" : "95%", // Allow more width for AI (recipe cards)
               display: "flex",
               flexDirection: "column",
             }}
@@ -182,7 +256,11 @@ export const AiChat = () => {
                 boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
               }}
             >
-              <ReactMarkdown>{msg.text}</ReactMarkdown>
+              {msg.sender === "ai" ? (
+                renderMessageContent(msg.text)
+              ) : (
+                <ReactMarkdown>{msg.text}</ReactMarkdown>
+              )}
             </div>
           </div>
         ))}
