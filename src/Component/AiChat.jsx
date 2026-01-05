@@ -51,7 +51,14 @@ export const AiChat = () => {
 
       // Construct context from mock data
       const productList = products
-        .map((p) => `- ${p.name} ($${p.price.toFixed(2)})`)
+        .map((p) => {
+          let info = `- ${p.name} ($${p.price.toFixed(2)})`;
+          if (p.nutrition && p.nutrition.per100g) {
+            const n = p.nutrition.per100g;
+            info += ` [Nutrition per 100g: Energy ${n.energy}, Protein ${n.protein}]`;
+          }
+          return info;
+        })
         .join("\n");
       const recipeList = recipes
         .map((r) => `- ${r.title} (ID: ${r.id})`)
