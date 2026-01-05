@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Zoom } from "react-awesome-reveal";
 import { MagnifyingGlass } from "react-loader-spinner";
 import { Link } from "react-router-dom";
+import { AiChat } from "../../Component/AiChat";
 import blog1 from "../../images/blog-img-1.jpg";
 import blog2 from "../../images/blog-img-2.jpg";
 import blog3 from "../../images/blog-img-3.jpg";
@@ -58,6 +59,7 @@ const BlogCategory = () => {
                           Ask anything about our products and get instant
                           answers.
                         </p>
+                        <AiChat />
                         {/* heading */}
                         <h1 className="fw-bold">Recipes</h1>
                       </div>
