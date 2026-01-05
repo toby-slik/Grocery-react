@@ -57,6 +57,18 @@ export const findProductForIngredient = (ingredient) => {
     return products.find((p) => p.name.includes("Honey"));
   if (ingredientLower.includes("veg"))
     return products.find((p) => p.name.includes("Veg"));
+  if (ingredientLower.includes("breadcrumbs"))
+    return products.find((p) => p.name.includes("Breadcrumbs"));
+  if (ingredientLower.includes("egg"))
+    return products.find((p) => p.name.includes("Egg"));
+  if (ingredientLower.includes("rice"))
+    return products.find((p) => p.name.includes("Rice"));
+  if (ingredientLower.includes("coconut"))
+    return products.find((p) => p.name.includes("Coconut"));
+  if (ingredientLower.includes("curry"))
+    return products.find((p) => p.name.includes("Curry"));
+  if (ingredientLower.includes("sauce"))
+    return products.find((p) => p.name.includes("Sauce"));
 
   // Fallback: search products for any word match
   return products.find((p) => ingredientLower.includes(p.name.toLowerCase()));
