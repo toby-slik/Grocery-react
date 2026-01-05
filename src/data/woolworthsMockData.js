@@ -464,7 +464,7 @@ export const recipes = [
     difficulty: 2,
     calories: "520",
     image:
-      "https://foodhub.scene7.com/is/image/woolworthsltdprod/2103-thai-red-chicken-curry?wid=1300&hei=1300&fmt=png-alpha&resMode=sharp2&qlt=100",
+      "https://foodhub.scene7.com/is/image/woolworthsltdprod/FRE2510-MKR-RedCurry-Digi-A-194?wid=1300&hei=1300&fmt=png-alpha&resMode=sharp2&qlt=100",
     tags: ["Dinner", "Thai", "Spicy", "Quick"],
     ingredients: [
       "500g Woolworths Chicken Breast, sliced",
@@ -528,7 +528,7 @@ export const recipes = [
     difficulty: 1,
     calories: "480",
     image:
-      "https://foodhub.scene7.com/is/image/woolworthsltdprod/1612-honey-and-ginger-chicken-stir-fry?wid=1300&hei=1300&fmt=png-alpha&resMode=sharp2&qlt=100",
+      "https://foodhub.scene7.com/is/image/woolworthsltdprod/2103-honey-soy-chicken-stir-fry?wid=1300&hei=1300&fmt=png-alpha&resMode=sharp2&qlt=100",
     tags: ["Dinner", "Asian", "Quick", "Healthy"],
     ingredients: [
       "250g Woolworths Chicken Breast, sliced",
