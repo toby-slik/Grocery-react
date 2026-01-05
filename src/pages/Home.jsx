@@ -1,37 +1,17 @@
-import slider1 from "../images/slide-1.jpg";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import Slider from "react-slick";
 import abouticon from "../images/about-icons-1.svg";
-import slider2 from "../images/slider-2.jpg";
 import adbanner1 from "../images/ad-banner-1.jpg";
 import adbanner2 from "../images/ad-banner-2.jpg";
 import adbanner3 from "../images/ad-banner-3.jpg";
-import attaricedal from "../images/atta-rice-dal.png";
-import petcare from "../images/pet-care.png";
-import cleaningessentials from "../images/cleaning-essentials.png";
-import babycare from "../images/baby-care.png";
-import chickenmeatfish from "../images/chicken-meat-fish.png";
-import colddrinksjuices from "../images/cold-drinks-juices.png";
-import teacoffeedrinks from "../images/tea-coffee-drinks.png";
-import instantfood from "../images/instant-food.png";
-import bakerybiscuits from "../images/bakery-biscuits.png";
-import snackmunchies from "../images/snack-munchies.png";
-import fruitsvegetables from "../images/fruits-vegetables.png";
-import dairybreadeggs from "../images/dairy-bread-eggs.png";
-import grocerybanner from "../images/grocery-banner.png";
-import grocerybanner2 from "../images/grocery-banner-2.jpg";
-import map from "../images/map.png";
-import iphone from "../images/iphone-2.png";
-import googleplay from "../images/googleplay-btn.svg";
 import appstore from "../images/appstore-btn.svg";
+import attaricedal from "../images/atta-rice-dal.png";
+import babycare from "../images/baby-care.png";
+import bakerybiscuits from "../images/bakery-biscuits.png";
 import bannerdeal from "../images/banner-deal1.jpg";
-import product11 from "../images/product-img-11.jpg";
-import product12 from "../images/product-img-12.jpg";
-import product13 from "../images/product-img-13.jpg";
-import clock from "../images/clock.svg";
-import gift from "../images/gift.svg";
-import package1 from "../images/package.svg";
-import refresh from "../images/refresh-cw.svg";
-import product1 from "../images/category-baby-care.jpg";
 import product2 from "../images/category-atta-rice-dal.jpg";
+import product1 from "../images/category-baby-care.jpg";
 import product3 from "../images/category-bakery-biscuits.jpg";
 import product4 from "../images/category-chicken-meat-fish.jpg";
 import product5 from "../images/category-cleaning-essentials.jpg";
@@ -40,14 +20,34 @@ import product7 from "../images/category-instant-food.jpg";
 import product8 from "../images/category-pet-care.jpg";
 import product9 from "../images/category-snack-munchies.jpg";
 import product10 from "../images/category-tea-coffee-drinks.jpg";
-import { Link } from "react-router-dom";
-import React, { useState } from "react";
+import chickenmeatfish from "../images/chicken-meat-fish.png";
+import cleaningessentials from "../images/cleaning-essentials.png";
+import clock from "../images/clock.svg";
+import colddrinksjuices from "../images/cold-drinks-juices.png";
+import dairybreadeggs from "../images/dairy-bread-eggs.png";
+import fruitsvegetables from "../images/fruits-vegetables.png";
+import gift from "../images/gift.svg";
+import googleplay from "../images/googleplay-btn.svg";
+import grocerybanner2 from "../images/grocery-banner-2.jpg";
+import grocerybanner from "../images/grocery-banner.png";
+import instantfood from "../images/instant-food.png";
+import iphone from "../images/iphone-2.png";
+import map from "../images/map.png";
+import package1 from "../images/package.svg";
+import petcare from "../images/pet-care.png";
+import product11 from "../images/product-img-11.jpg";
+import product12 from "../images/product-img-12.jpg";
+import product13 from "../images/product-img-13.jpg";
+import refresh from "../images/refresh-cw.svg";
+import slider1 from "../images/slide-1.jpg";
+import slider2 from "../images/slider-2.jpg";
+import snackmunchies from "../images/snack-munchies.png";
+import teacoffeedrinks from "../images/tea-coffee-drinks.png";
 import ProductItem from "../ProductList/ProductItem";
-import Slider from "react-slick";
 // import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css";
-import { Slide, Zoom } from "react-awesome-reveal";
 import { useEffect } from "react";
+import { Slide, Zoom } from "react-awesome-reveal";
 // import { PulseLoader } from 'react-spinners';
 import { MagnifyingGlass } from "react-loader-spinner";
 import FAQ from "./FooterElements/Faq";
@@ -243,7 +243,7 @@ const Home = () => {
                       <div className="carousel-item active">
                         <div
                           style={{
-                            background: `url(${slider1}) no-repeat`,
+                            background: `url(${slider2}) no-repeat`,
                             backgroundSize: "cover",
                             borderRadius: ".5rem",
                             backgroundPosition: "center",
@@ -270,7 +270,7 @@ const Home = () => {
                       <div className="carousel-item">
                         <div
                           style={{
-                            background: `url(${slider2}) no-repeat`,
+                            background: `url(${slider1}) no-repeat`,
                             backgroundSize: "cover",
                             borderRadius: ".5rem",
                             backgroundPosition: "center",
@@ -1573,7 +1573,7 @@ const Home = () => {
               </section>
             </>
             <>
-            <FAQ/>
+              <FAQ />
             </>
             <>
               <div className="container">
@@ -1699,7 +1699,7 @@ const Home = () => {
                         alt="product"
                       />
                       <h6 class="card-title partner">
-                      <div>Baby Care</div>
+                        <div>Baby Care</div>
                       </h6>
                     </div>
                   </div>
@@ -1711,8 +1711,8 @@ const Home = () => {
                         className="img-fluid"
                         alt="product"
                       />
-                       <h6 class="card-title">
-                       <div>Atta, Rice &amp; Dal</div>
+                      <h6 class="card-title">
+                        <div>Atta, Rice &amp; Dal</div>
                       </h6>
                     </div>
                   </div>
@@ -1724,8 +1724,8 @@ const Home = () => {
                         className="img-fluid"
                         alt="product"
                       />
-                       <h6 class="card-title">
-                       <div>Bakery &amp; Biscuits</div>
+                      <h6 class="card-title">
+                        <div>Bakery &amp; Biscuits</div>
                       </h6>
                     </div>
                   </div>
@@ -1737,8 +1737,8 @@ const Home = () => {
                         className="img-fluid"
                         alt="product"
                       />
-                       <h6 class="card-title">
-                       <div>Chicken, Meat &amp; Fish</div>
+                      <h6 class="card-title">
+                        <div>Chicken, Meat &amp; Fish</div>
                       </h6>
                     </div>
                   </div>
@@ -1750,8 +1750,8 @@ const Home = () => {
                         className="img-fluid"
                         alt="product"
                       />
-                       <h6 class="card-title">
-                       <div>Cleaning Essentials</div>
+                      <h6 class="card-title">
+                        <div>Cleaning Essentials</div>
                       </h6>
                     </div>
                   </div>
@@ -1763,8 +1763,8 @@ const Home = () => {
                         className="img-fluid"
                         alt="product"
                       />
-                       <h6 class="card-title">
-                       <div>Dairy, Bread &amp; Eggs</div>
+                      <h6 class="card-title">
+                        <div>Dairy, Bread &amp; Eggs</div>
                       </h6>
                     </div>
                   </div>
@@ -1776,8 +1776,8 @@ const Home = () => {
                         className="img-fluid"
                         alt="product"
                       />
-                       <h6 class="card-title">
-                       <div>Instant Food</div>
+                      <h6 class="card-title">
+                        <div>Instant Food</div>
                       </h6>
                     </div>
                   </div>
@@ -1789,8 +1789,8 @@ const Home = () => {
                         className="img-fluid"
                         alt="product"
                       />
-                       <h6 class="card-title">
-                      <div>Pet Care</div>
+                      <h6 class="card-title">
+                        <div>Pet Care</div>
                       </h6>
                     </div>
                   </div>
@@ -1802,8 +1802,8 @@ const Home = () => {
                         className="img-fluid"
                         alt="product"
                       />
-                       <h6 class="card-title">
-                       <div>Snack &amp; Munchies</div>
+                      <h6 class="card-title">
+                        <div>Snack &amp; Munchies</div>
                       </h6>
                     </div>
                   </div>
@@ -1815,16 +1815,14 @@ const Home = () => {
                         className="img-fluid"
                         alt="product"
                       />
-                       <h6 class="card-title">
-                       <div>Tea, Coffee &amp; Drinks</div>
+                      <h6 class="card-title">
+                        <div>Tea, Coffee &amp; Drinks</div>
                       </h6>
                     </div>
                   </div>
                 </Slider>
               </div>
             </>
-
-            
           </>
         )}
       </div>
