@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { calculateRecipeCost } from "../utils/recipeUtils";
+import ShopRecipeModal from "./ShopRecipeModal";
 
 const NutritionModal = ({ nutrition, onClose }) => {
   if (!nutrition) return null;
@@ -138,6 +140,16 @@ const NutritionModal = ({ nutrition, onClose }) => {
 const RecipeCard = ({ recipe }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showNutrition, setShowNutrition] = useState(false);
+  const [showShopModal, setShowShopModal] = useState(false);
+
+  // Dynamic cost calculation
+  const { perServe: estCostPerServe } = calculateRecipeCost(recipe);
+
+  // Use dynamic cost if valid (~$0 means specific products missing, fallback to static if available)
+  const displayCost =
+    estCostPerServe && estCostPerServe > 0
+      ? `$${estCostPerServe}`
+      : recipe.pricePerServe;
 
   if (!recipe) return null;
 
@@ -157,11 +169,28 @@ const RecipeCard = ({ recipe }) => {
         <div
           style={{ position: "relative", height: "150px", overflow: "hidden" }}
         >
-          <img
-            src={recipe.image}
-            alt={recipe.title}
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-          />
+          {recipe.image ? (
+            <img
+              src={recipe.image}
+              alt={recipe.title}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          ) : (
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                backgroundColor: "#eee",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#888",
+              }}
+            >
+              No Image
+            </div>
+          )}
+
           {/* Difficulty Dots (Top Right) */}
           <div
             style={{
@@ -219,6 +248,7 @@ const RecipeCard = ({ recipe }) => {
               color: "#666",
               marginBottom: "12px",
               gap: "12px",
+              flexWrap: "wrap",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
@@ -233,6 +263,20 @@ const RecipeCard = ({ recipe }) => {
               <span>🍽️</span>
               <span>{recipe.servings} Serves</span>
             </div>
+            {displayCost && (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "4px",
+                  color: "#178841",
+                  fontWeight: "bold",
+                }}
+              >
+                <span>💰</span>
+                <span>{displayCost}/serve (Est.)</span>
+              </div>
+            )}
           </div>
 
           {/* Ingredients Preview */}
@@ -312,24 +356,51 @@ const RecipeCard = ({ recipe }) => {
             </div>
           )}
 
-          {/* Action Button */}
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
+          {/* Action Buttons */}
+          <div
             style={{
-              width: "100%",
-              padding: "10px",
-              backgroundColor: "#178841",
-              color: "white",
-              border: "none",
-              borderRadius: "20px",
-              fontWeight: "600",
-              fontSize: "14px",
-              cursor: "pointer",
+              display: "flex",
+              gap: "8px",
               marginTop: isExpanded ? "16px" : "0",
             }}
           >
-            {isExpanded ? "Close Recipe" : "View Full Recipe"}
-          </button>
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              style={{
+                flex: 1,
+                padding: "10px",
+                backgroundColor: "#fff",
+                color: "#178841",
+                border: "1px solid #178841",
+                borderRadius: "20px",
+                fontWeight: "600",
+                fontSize: "14px",
+                cursor: "pointer",
+              }}
+            >
+              {isExpanded ? "Close" : "View Method"}
+            </button>
+            <button
+              onClick={() => setShowShopModal(true)}
+              style={{
+                flex: 1,
+                padding: "10px",
+                backgroundColor: "#178841",
+                color: "white",
+                border: "none",
+                borderRadius: "20px",
+                fontWeight: "600",
+                fontSize: "14px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
+              }}
+            >
+              <span>🛒</span> Shop Recipe
+            </button>
+          </div>
 
           {/* Nutrition Summary */}
           {recipe.nutrition && (
@@ -457,6 +528,13 @@ const RecipeCard = ({ recipe }) => {
         <NutritionModal
           nutrition={recipe.nutrition}
           onClose={() => setShowNutrition(false)}
+        />
+      )}
+
+      {showShopModal && (
+        <ShopRecipeModal
+          recipe={recipe}
+          onClose={() => setShowShopModal(false)}
         />
       )}
     </>

@@ -10,18 +10,12 @@ export const AiChat = () => {
   const [loading, setLoading] = useState(false);
   const chatContainerRef = useRef(null);
 
-  /* State to track if the user wants to stick to the bottom */
   const [isStickToBottom, setIsStickToBottom] = useState(true);
-
-  // We need to keep a reference to the chat session or recreate it with history
-  // For simplicity and to ensure history is synced with state, we'll recreate headers/history each time or use a ref for the chat object if we wanted,
-  // but mapping state to history is robust.
 
   const handleScroll = () => {
     if (chatContainerRef.current) {
       const { scrollTop, scrollHeight, clientHeight } =
         chatContainerRef.current;
-      // If the user is within 50px of the bottom, we consider them "at the bottom" so we stick
       const isAtBottom = scrollHeight - scrollTop - clientHeight < 50;
       setIsStickToBottom(isAtBottom);
     }
@@ -65,31 +59,37 @@ export const AiChat = () => {
         .join("\n");
 
       const model = genAI.getGenerativeModel({
-        model: "gemini-2.5-flash",
-        systemInstruction: `**Role:** You are the official AI Personal Shopper for Woolworths. You are a culinary expert, a budget-conscious strategist, and a friendly guide all rolled into one. 
+        model: "gemini-2.5-flash-lite",
+        systemInstruction: `**Role:** You are the official AI Personal Shopper for Woolworths.
+**Objective:** Assist customers by finding products, suggesting recipes, and managing their shopping list.
 
 **Context Data:**
 Here are some products currently in stock:
 ${productList}
 
-Here are some recipes you know:
+**Recipe Database:**
+Here are our EXCLUSIVE, Pre-Defined Recipes. You MUST prioritize these over generating new ones:
 ${recipeList}
 
-**Core Directives:**
-1. **Culinary Inspiration:** If a user mentions an ingredient, suggest a complementary item or a quick meal idea.
-2. **Wayfinding:** Direct users to specific aisles or departments.
-3. **Budget Consciousness:** Highlight Store Brand (Private Label) alternatives and current seasonal value items when appropriate.
-4. **Dietary Guardrails:** Actively flag common allergens if a user asks for Gluten-Free or Vegan recommendations. Always include a disclaimer: "Always check the physical label for the most up-to-date allergen info."
-5. **Recipe Recommendations:** If you recommend a recipe that is in the "Recipes you know" list above, you MUST output a special marker on its own line:
-   \`[RECIPE_CARD: <Exact Recipe Title>]\`
-   For example: \`[RECIPE_CARD: High-protein chicken & smashed pea pasta]\`
-   Do not explain the recipe in text if you use the card, just introduce it.
+**Capabilities & Layout Rules:**
+1.  **Prioritize Known Recipes:**
+    - CRITICAL: If the user's request matches (even loosely) one of the titles in the "Recipe Database" above, you MUST respond with the exact recipe card marker for it.
+    - Marker Format: \`[RECIPE_CARD: <Exact Title From List>]\`
+    - Example: If user asks for "tacos", lookup "Easy 15-Minute Tacos" and output \`[RECIPE_CARD: Easy 15-Minute Tacos]\`. Do NOT generate a new taco recipe.
 
-**Operational Rules:**
-**Product Substitutions:** If an item is likely out of stock or niche, suggest a common substitute.
-**No Medical Advice:** Do not give health or medical advice. Stick to nutritional facts and culinary uses.
-**Conciseness:** Keep responses punchy. Customers are often on their phones in a busy aisle.
-**Tone & Voice:** Helpful, energetic, and food-forward. Use "we" and "our" to represent the store. Use bullet points for shopping lists. Don't mention anything about topics that are not relevant to cooking or meal planning. If the user asks a question that isn't relevant to cooking or meal planning, respond with "what meal would you like to create?"`,
+2.  **Modifying Recipes (Advanced):**
+    - ONLY if the user explicitly asks to *change* a recipe (e.g. "make it cheaper", "add protein", "vegan version"), then you should generate a *modified* recipe object.
+    - Output this modified recipe as a JSON object wrapped in: \`[RECIPE_DATA: { ... }]\`.
+    - The JSON must include: title, ingredients, method, nutrition (estimated), image (placeholder or original URL), pricePerServe (estimated).
+
+3.  **New/Custom Recipes:**
+    - If the user wants a meal NOT in the database (e.g. "Pizza"), generate a custom recipe object.
+    - Output as valid JSON wrapped in: \`[RECIPE_DATA: { ... }]\`.
+
+**Response Style:**
+- Be helpful and enthusiastic. Use emojis.
+- ALWAYS use the card markers defined above for recipes.
+`,
       });
 
       const history = messages.map((msg) => ({
@@ -137,14 +137,27 @@ ${recipeList}
 
   // Helper function to render message content with potential recipe cards
   const renderMessageContent = (text) => {
-    // Regex to find [RECIPE_CARD: Title]
-    const recipeRegex = /\[RECIPE_CARD:\s*(.*?)\]/g;
+    // Regex for both simple cards and dynamic data cards
+    // We iterate through the text finding matches for either pattern
+    const cardRegex = /\[RECIPE_CARD:\s*(.*?)\]/g;
+    const dataRegex = /\[RECIPE_DATA:\s*(\{.*?\})\]/s; // Single line search for now, could be multiline? Text usually streams.
+    // Actually, simple regex replacements might be tricky if we have mixed content.
+    // Let's split by known markers.
+
+    // Better strategy: Combine regex or just iterate.
+    // Let's try searching for the first occurrence of ANY marker.
+
+    // For simplicity given the tooling, let's keep the existing loop but expand the Regex.
+    // [RECIPE_CARD: Title] OR [RECIPE_DATA: {json}]
+    // Note: JSON matching with regex is hard. Let's assume the AI outputs it cleanly on one line or we use a flexible dot match.
+
+    const combinedRegex = /\[(RECIPE_CARD|RECIPE_DATA):\s*(.*?)\]/gs;
+
     const parts = [];
     let lastIndex = 0;
     let match;
 
-    while ((match = recipeRegex.exec(text)) !== null) {
-      // Push text before the match
+    while ((match = combinedRegex.exec(text)) !== null) {
       if (match.index > lastIndex) {
         parts.push(
           <ReactMarkdown key={`text-${lastIndex}`}>
@@ -153,22 +166,44 @@ ${recipeList}
         );
       }
 
-      // Find the recipe object
-      const recipeTitle = match[1].trim();
-      const recipe = recipes.find(
-        (r) => r.title.toLowerCase() === recipeTitle.toLowerCase()
-      );
+      const type = match[1];
+      const content = match[2];
 
-      if (recipe) {
-        parts.push(
-          <RecipeCard key={`recipe-${match.index}`} recipe={recipe} />
+      if (type === "RECIPE_CARD") {
+        const recipeTitle = content.trim();
+        const recipe = recipes.find(
+          (r) => r.title.toLowerCase() === recipeTitle.toLowerCase()
         );
+        if (recipe) {
+          parts.push(
+            <RecipeCard key={`recipe-${match.index}`} recipe={recipe} />
+          );
+        }
+      } else if (type === "RECIPE_DATA") {
+        try {
+          // The regex might capture '}' lazily, but JSON might have nested braces.
+          // This is risky with simple regex.
+          // However, since we guide the AI, let's try to parse the content.
+          // If the regex failed to capture the full JSON, this will error.
+          // A safer way for JSON is to find the start and try to find the balancing end, but that's complex code.
+          // Let's rely on the AI following a single-line or clean block structure.
+
+          const recipeData = JSON.parse(content);
+          parts.push(
+            <RecipeCard
+              key={`recipe-data-${match.index}`}
+              recipe={recipeData}
+            />
+          );
+        } catch (e) {
+          console.error("Failed to parse dynamic recipe data", e);
+          // Fallback: just show the text? Or ignore.
+        }
       }
 
       lastIndex = match.index + match[0].length;
     }
 
-    // Push remaining text
     if (lastIndex < text.length) {
       parts.push(
         <ReactMarkdown key={`text-${lastIndex}`}>
@@ -189,7 +224,7 @@ ${recipeList}
         borderRadius: "16px",
         display: "flex",
         flexDirection: "column",
-        height: "600px",
+        height: "70vh",
         backgroundColor: "#ffffff",
         boxShadow: "0 10px 25px rgba(0,0,0,0.05)",
         fontFamily: "'Inter', sans-serif",

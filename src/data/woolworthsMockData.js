@@ -99,6 +99,62 @@ export const products = [
     category: "Fruit & Veg",
     inStock: true,
   },
+  {
+    id: "p11",
+    name: "Macro Organic Firm Tofu 450g",
+    price: 5.0,
+    category: "Fridge",
+    inStock: true,
+  },
+  {
+    id: "p12",
+    name: "Woolworths Stir Fry Vegetable Mix 500g",
+    price: 4.5,
+    category: "Fruit & Veg",
+    inStock: true,
+  },
+  {
+    id: "p13",
+    name: "Soy Sauce 250ml",
+    price: 2.5,
+    category: "Pantry",
+    inStock: true,
+  },
+  {
+    id: "p14",
+    name: "Honey 500g",
+    price: 6.0,
+    category: "Pantry",
+    inStock: true,
+  },
+  {
+    id: "p15",
+    name: "Fresh Ginger 50g",
+    price: 1.5,
+    category: "Fruit & Veg",
+    inStock: true,
+  },
+  {
+    id: "p16",
+    name: "Olive Oil 500ml",
+    price: 9.0,
+    category: "Pantry",
+    inStock: true,
+  },
+  {
+    id: "p17",
+    name: "Cornflour 300g",
+    price: 2.8,
+    category: "Pantry",
+    inStock: true,
+  },
+  {
+    id: "p18",
+    name: "Maple Syrup 250ml",
+    price: 6.0,
+    category: "Pantry",
+    inStock: true,
+  },
 ];
 
 export const recipes = [
