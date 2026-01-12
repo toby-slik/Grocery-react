@@ -1,3 +1,9 @@
+import {
+  ClerkProvider,
+  RedirectToSignIn,
+  SignedIn,
+  SignedOut,
+} from "@clerk/clerk-react";
 // react
 // css
 import "./App.css";
@@ -38,57 +44,79 @@ import Careers from "./pages/FooterElements/Careers";
 import Coupons from "./pages/FooterElements/Coupons";
 import FAQ from "./pages/FooterElements/Faq";
 import HelpCenter from "./pages/FooterElements/HelpCenter";
+
+const clerkPublishableKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
+
+if (!clerkPublishableKey) {
+  throw new Error(
+    "Missing Publishable Key. Please set REACT_APP_CLERK_PUBLISHABLE_KEY in your .env.local file and restart your server."
+  );
+}
+
 const App = () => {
   return (
-    <div>
+    <ClerkProvider publishableKey={clerkPublishableKey}>
       <CartProvider>
         <Router>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            {/* Shop pages */}
-            <Route path="/Shop" element={<Shop />} />
-            <Route path="/ShopGridCol3" element={<ShopGridCol3 />} />
-            <Route path="/ShopListCol" element={<ShopListCol />} />
-            <Route path="/ShopWishList" element={<ShopWishList />} />
-            <Route path="/ShopCheckOut" element={<ShopCheckOut />} />
-            <Route path="/ShopCart" element={<ShopCart />} />
-            {/* Store pages */}
-            <Route path="/StoreList" element={<StoreList />} />
-            <Route path="/SingleShop" element={<SingleShop />} />
-            {/* Accounts pages */}
-            <Route path="/MyAccountOrder" element={<MyAccountOrder />} />
-            <Route path="/MyAccountSetting" element={<MyAccountSetting />} />
-            <Route
-              path="/MyAcconutNotification"
-              element={<MyAcconutNotification />}
-            />
-            <Route
-              path="/MyAcconutPaymentMethod"
-              element={<MyAcconutPaymentMethod />}
-            />
-            <Route path="/MyAccountAddress" element={<MyAccountAddress />} />
-            <Route
-              path="/MyAccountForgetPassword"
-              element={<MyAccountForgetPassword />}
-            />
-            <Route path="/MyAccountSignIn" element={<MyAccountSignIn />} />
-            <Route path="/MyAccountSignUp" element={<MyAccountSignUp />} />
-            {/* About pages */}
-            <Route path="/Blog" element={<Blog />} />
-            <Route path="/BlogCategory" element={<BlogCategory />} />
-            <Route path="/Contact" element={<Contact />} />
-            <Route path="/AboutUs" element={<AboutUs />} />
-            {/* Footer Elements */}
-            <Route path="/Faq" element={<FAQ />} />
-            <Route path="/Coupons" element={<Coupons />} />
-            <Route path="/Careers" element={<Careers />} />
-            <Route path="/helpcenter" element={<HelpCenter />} />
-          </Routes>
-          <Footer />
+          <SignedIn>
+            <div>
+              <Header />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                {/* Shop pages */}
+                <Route path="/Shop" element={<Shop />} />
+                <Route path="/ShopGridCol3" element={<ShopGridCol3 />} />
+                <Route path="/ShopListCol" element={<ShopListCol />} />
+                <Route path="/ShopWishList" element={<ShopWishList />} />
+                <Route path="/ShopCheckOut" element={<ShopCheckOut />} />
+                <Route path="/ShopCart" element={<ShopCart />} />
+                {/* Store pages */}
+                <Route path="/StoreList" element={<StoreList />} />
+                <Route path="/SingleShop" element={<SingleShop />} />
+                {/* Accounts pages */}
+                <Route path="/MyAccountOrder" element={<MyAccountOrder />} />
+                <Route
+                  path="/MyAccountSetting"
+                  element={<MyAccountSetting />}
+                />
+                <Route
+                  path="/MyAcconutNotification"
+                  element={<MyAcconutNotification />}
+                />
+                <Route
+                  path="/MyAcconutPaymentMethod"
+                  element={<MyAcconutPaymentMethod />}
+                />
+                <Route
+                  path="/MyAccountAddress"
+                  element={<MyAccountAddress />}
+                />
+                <Route
+                  path="/MyAccountForgetPassword"
+                  element={<MyAccountForgetPassword />}
+                />
+                <Route path="/MyAccountSignIn" element={<MyAccountSignIn />} />
+                <Route path="/MyAccountSignUp" element={<MyAccountSignUp />} />
+                {/* About pages */}
+                <Route path="/Blog" element={<Blog />} />
+                <Route path="/BlogCategory" element={<BlogCategory />} />
+                <Route path="/Contact" element={<Contact />} />
+                <Route path="/AboutUs" element={<AboutUs />} />
+                {/* Footer Elements */}
+                <Route path="/Faq" element={<FAQ />} />
+                <Route path="/Coupons" element={<Coupons />} />
+                <Route path="/Careers" element={<Careers />} />
+                <Route path="/helpcenter" element={<HelpCenter />} />
+              </Routes>
+              <Footer />
+            </div>
+          </SignedIn>
+          <SignedOut>
+            <RedirectToSignIn />
+          </SignedOut>
         </Router>
       </CartProvider>
-    </div>
+    </ClerkProvider>
   );
 };
 
