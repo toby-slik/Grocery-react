@@ -952,7 +952,7 @@ export const recipes = [
     difficulty: 2,
     calories: "450",
     image:
-      "https://foodhub.scene7.com/is/image/woolworthsltdprod/337969?wid=6264&hei=4176&fmt=png-alpha&resMode=sharp2&qlt=100",
+      "https://foodhub.scene7.com/is/image/woolworthsltdprod/fi-0324-healthier-prawn-caesar-salad?wid=1300&hei=1300&fmt=png-alpha&resMode=sharp2&qlt=100",
     tags: ["Lunch", "Salad", "Fresh", "Classic"],
     ingredients: [
       "500g Woolworths Chicken Breast Fillets",
