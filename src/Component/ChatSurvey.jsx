@@ -11,15 +11,18 @@ const ChatSurvey = ({
     if (data.people) parts.push(`shopping for ${data.people}`);
     if (data.days) parts.push(`for ${data.days}`);
 
+    const subject = data.people === "1 Person" ? "I" : "we";
+    const pronoun = subject === "I" ? "I'm" : "We're";
+
     const intro =
       parts.length > 0
-        ? `I'm ${parts.join(" ")}.`
-        : "I'm looking for some recipe ideas.";
+        ? `${pronoun} ${parts.join(" ")}.`
+        : `${pronoun} looking for some recipe ideas.`;
     const dietary = data.dietary.trim()
       ? ` Dietary requirements: ${data.dietary}.`
       : "";
 
-    handleSend(null, `${intro}${dietary} What should we cook?`);
+    handleSend(null, `${intro}${dietary} What should ${subject} cook?`);
   };
 
   if (surveyStep === 0) {
