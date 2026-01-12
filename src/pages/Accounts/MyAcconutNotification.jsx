@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { MagnifyingGlass } from "react-loader-spinner";
+import { Link } from "react-router-dom";
 import ScrollToTop from "../ScrollToTop";
 
 const MyAcconutNotification = () => {
@@ -14,9 +14,9 @@ const MyAcconutNotification = () => {
 
   return (
     <div>
-       <>
-            <ScrollToTop/>
-            </>
+      <>
+        <ScrollToTop />
+      </>
       <>
         {/* section */}
         <section>
@@ -392,7 +392,7 @@ const MyAcconutNotification = () => {
               <ul className="nav flex-column nav-pills nav-pills-dark">
                 {/* nav item */}
                 <li className="nav-item">
-                  <a className="nav-link " href="/Grocery-react/">
+                  <a className="nav-link " href="/">
                     <i className="fas fa-sign-out-alt me-2" />
                     Log out
                   </a>

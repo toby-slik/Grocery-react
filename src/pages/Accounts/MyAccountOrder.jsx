@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { useEffect, useState } from "react";
+import { MagnifyingGlass } from "react-loader-spinner";
+import { Link } from "react-router-dom";
 import productimg1 from "../../images/product-img-1.jpg";
 import productimg2 from "../../images/product-img-2.jpg";
 import productimg3 from "../../images/product-img-3.jpg";
 import productimg4 from "../../images/product-img-4.jpg";
 import productimg5 from "../../images/product-img-5.jpg";
 import productimg6 from "../../images/product-img-6.jpg";
-import { MagnifyingGlass } from "react-loader-spinner";
 import ScrollToTop from "../ScrollToTop";
 
 const MyAccountOrder = () => {
@@ -21,9 +21,9 @@ const MyAccountOrder = () => {
 
   return (
     <div>
-       <>
-            <ScrollToTop/>
-            </>
+      <>
+        <ScrollToTop />
+      </>
       <>
         {/* section */}
         <section>
@@ -99,7 +99,7 @@ const MyAccountOrder = () => {
                     </li>
                     {/* nav item */}
                     <li className="nav-item">
-                      <Link className="nav-link " to="/Grocery-react/">
+                      <Link className="nav-link " to="/">
                         <i className="fas fa-sign-out-alt me-2" />
                         Log out
                       </Link>
@@ -510,7 +510,7 @@ const MyAccountOrder = () => {
               <ul className="nav flex-column nav-pills nav-pills-dark">
                 {/* nav item */}
                 <li className="nav-item">
-                  <a className="nav-link " href="/Grocery-react/">
+                  <a className="nav-link " href="/">
                     <i className="fas fa-sign-out-alt me-2" />
                     Log out
                   </a>

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { MagnifyingGlass } from "react-loader-spinner";
+import { Link } from "react-router-dom";
 import amazonpay from "../../images/amazonpay.svg";
 import american from "../../images/american-express.svg";
+import discover from "../../images/discover.svg";
 import mastercard from "../../images/mastercard.svg";
 import paypal from "../../images/paypal.svg";
 import visa from "../../images/visa.svg";
-import discover from "../../images/discover.svg";
 import ScrollToTop from "../ScrollToTop";
 
 const MyAcconutPaymentMethod = () => {
@@ -20,9 +20,9 @@ const MyAcconutPaymentMethod = () => {
 
   return (
     <div>
-       <>
-            <ScrollToTop/>
-            </>
+      <>
+        <ScrollToTop />
+      </>
       <>
         <div>
           <section>
@@ -99,7 +99,7 @@ const MyAcconutPaymentMethod = () => {
                       </li>
                       {/* nav item */}
                       <li className="nav-item">
-                        <Link className="nav-link " to="/Grocery-react/">
+                        <Link className="nav-link " to="/">
                           <i className="fas fa-sign-out-alt me-2" />
                           Log out
                         </Link>
@@ -368,7 +368,7 @@ const MyAcconutPaymentMethod = () => {
                 <ul className="nav flex-column nav-pills nav-pills-dark">
                   {/* nav item */}
                   <li className="nav-item">
-                    <a className="nav-link " href="/Grocery-react/">
+                    <a className="nav-link " href="/">
                       <i className="fas fa-sign-out-alt me-2" />
                       Log out
                     </a>

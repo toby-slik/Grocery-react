@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import productimage1 from "../images/product-img-1.jpg";
 import productimage2 from "../images/product-img-2.jpg";
@@ -234,7 +234,7 @@ const Header = () => {
       </>
       <nav className="navbar navbar-expand-lg navbar-light sticky-top">
         <div className="container">
-          <Link className="navbar-brand" to="/Grocery-react/">
+          <Link className="navbar-brand" to="/">
             <img
               src="https://cdn0.woolworths.media//content/content/icon-header-logo.green.png"
               style={{ width: 200, marginBottom: 10, marginLeft: "-15px" }}
@@ -333,7 +333,7 @@ const Header = () => {
                 </li>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/Grocery-react/">
+                <Link className="nav-link" to="/">
                   Home
                 </Link>
               </li>
