@@ -68,7 +68,7 @@ export const AiChat = () => {
         .join("\n");
 
       const model = genAI.getGenerativeModel({
-        model: "gemini-2.5-flash",
+        model: "gemini-3-flash",
         systemInstruction: `**Role:** You are the official AI Personal Shopper for Woolworths.
 **Objective:** Assist customers by finding products, suggesting recipes, and managing their shopping list.
 
