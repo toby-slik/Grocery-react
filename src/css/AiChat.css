@@ -1,0 +1,255 @@
+.ai-chat-container {
+  margin: 20px auto;
+  border: 1px solid #e0e0e0;
+  borderradius: 16px;
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  background-color: #ffffff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  font-family: "Inter", sans-serif;
+}
+
+.ai-chat-header {
+  padding: 20px;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: #fafafa;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.chat-history {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: #fff;
+}
+
+/* Survey Styling */
+.survey-welcome-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.survey-welcome-card {
+  text-align: center;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.survey-emoji-badge {
+  font-size: 60px;
+  background: #f0fdf4;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.survey-card {
+  width: 100%;
+  max-width: 400px;
+  background-color: #fff;
+  border-radius: 24px;
+  padding: 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: slideUp 0.4s ease-out;
+}
+
+.progress-bar-container {
+  display: flex;
+  gap: 6px;
+}
+
+.progress-step {
+  height: 6px;
+  flex: 1;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+
+.survey-step-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.survey-title {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0;
+}
+
+.survey-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.survey-button {
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid #e0e0e0;
+  background-color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.survey-button:hover {
+  border-color: #008446;
+  background-color: #f0fdf4;
+}
+
+.survey-textarea {
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid #e0e0e0;
+  min-height: 100px;
+  outline: none;
+  font-size: 15px;
+  resize: none;
+}
+
+.survey-textarea:focus {
+  border-color: #008446;
+}
+
+.survey-primary-button {
+  background-color: #008446;
+  color: white;
+  padding: 14px 32px;
+  border-radius: 30px;
+  border: none;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 132, 70, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.survey-primary-button:hover {
+  transform: translateY(-2px);
+}
+
+.survey-nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.survey-nav-link {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.survey-skip-link {
+  text-decoration: underline;
+}
+
+/* Message Styling */
+.message-bubble-container {
+  max-width: 95%;
+  display: flex;
+  flex-direction: column;
+}
+
+.message-bubble {
+  padding: 12px 18px;
+  border-radius: 18px;
+  line-height: 1.5;
+  font-size: 15px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.message-user {
+  align-self: flex-end;
+  background-color: #008446;
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.message-ai {
+  align-self: flex-start;
+  background-color: #f4f6f8;
+  color: #1a1a1a;
+  border-bottom-left-radius: 4px;
+}
+
+.typing-indicator {
+  align-self: flex-start;
+  color: #888;
+  padding-left: 10px;
+  font-size: 14px;
+}
+
+/* Input Form styling */
+.chat-input-form {
+  display: flex;
+  padding: 20px;
+  border-top: 1px solid #f0f0f0;
+  background-color: #fff;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  gap: 10px;
+}
+
+.chat-input-field {
+  flex: 1;
+  padding: 12px 20px;
+  border-radius: 24px;
+  border: 1px solid #e0e0e0;
+  outline: none;
+  font-size: 15px;
+  transition: border-color 0.2s;
+  background-color: #f9f9f9;
+}
+
+.chat-input-field:focus {
+  border-color: #008446;
+}
+
+.chat-send-button {
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.chat-send-button:disabled {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+}
