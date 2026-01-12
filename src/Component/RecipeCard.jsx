@@ -139,6 +139,7 @@ const NutritionModal = ({ nutrition, onClose }) => {
 
 const RecipeCard = ({ recipe }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isIngredientsExpanded, setIsIngredientsExpanded] = useState(false);
   const [showNutrition, setShowNutrition] = useState(false);
   const [showShopModal, setShowShopModal] = useState(false);
 
@@ -300,22 +301,35 @@ const RecipeCard = ({ recipe }) => {
                 color: "#555",
               }}
             >
-              {recipe.ingredients.slice(0, 3).map((ing, idx) => (
+              {(isIngredientsExpanded
+                ? recipe.ingredients
+                : recipe.ingredients.slice(0, 3)
+              ).map((ing, idx) => (
                 <li key={idx} style={{ marginBottom: "2px" }}>
                   {ing}
                 </li>
               ))}
               {recipe.ingredients.length > 3 && (
-                <li
+                <button
+                  onClick={() =>
+                    setIsIngredientsExpanded(!isIngredientsExpanded)
+                  }
                   style={{
-                    listStyle: "none",
+                    border: "none",
+                    background: "none",
+                    padding: "0",
                     color: "#178841",
                     marginTop: "4px",
                     fontSize: "12px",
+                    cursor: "pointer",
+                    fontWeight: "600",
+                    textDecoration: "underline",
                   }}
                 >
-                  +{recipe.ingredients.length - 3} more...
-                </li>
+                  {isIngredientsExpanded
+                    ? "Show less"
+                    : `+${recipe.ingredients.length - 3} more...`}
+                </button>
               )}
             </ul>
           </div>
