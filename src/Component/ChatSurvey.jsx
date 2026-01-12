@@ -32,7 +32,7 @@ const ChatSurvey = ({
         <div className="survey-welcome-card">
           <div className="survey-emoji-badge">😋</div>
           <h2 className="survey-title" style={{ fontSize: "32px" }}>
-            What we cooking??
+            What meal can I help you with?
           </h2>
           <p style={{ color: "#666", maxWidth: "280px", lineHeight: "1.5" }}>
             Let's plan your perfect meal plan together in just a few steps.
