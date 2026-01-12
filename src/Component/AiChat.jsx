@@ -18,6 +18,7 @@ export const AiChat = () => {
     people: "",
     days: "",
     dietary: "",
+    ideas: "",
   });
 
   const handleScroll = () => {

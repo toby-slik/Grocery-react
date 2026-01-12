@@ -21,8 +21,9 @@ const ChatSurvey = ({
     const dietary = data.dietary.trim()
       ? ` Dietary requirements: ${data.dietary}.`
       : "";
+    const ideas = data.ideas.trim() ? ` Specific ideas: ${data.ideas}.` : "";
 
-    handleSend(null, `${intro}${dietary} What should ${subject} cook?`);
+    handleSend(null, `${intro}${dietary}${ideas} What should ${subject} cook?`);
   };
 
   if (surveyStep === 0) {
@@ -52,7 +53,7 @@ const ChatSurvey = ({
       <div className="survey-card">
         {/* Progress Bar */}
         <div className="progress-bar-container">
-          {[1, 2, 3].map((s) => (
+          {[1, 2, 3, 4].map((s) => (
             <div
               key={s}
               className="progress-step"
@@ -158,6 +159,56 @@ const ChatSurvey = ({
             />
             <button
               className="survey-primary-button"
+              onClick={() => setSurveyStep(4)}
+            >
+              Final Step
+            </button>
+            <div className="survey-nav-container">
+              <button
+                className="survey-nav-link"
+                onClick={() => setSurveyStep(3)}
+              >
+                Back
+              </button>
+              <button
+                className="survey-nav-link survey-skip-link"
+                onClick={() => {
+                  setSurveyData({ ...surveyData, dietary: "" });
+                  setSurveyStep(4);
+                }}
+              >
+                Skip
+              </button>
+            </div>
+          </div>
+        )}
+
+        {surveyStep === 4 && (
+          <div className="survey-step-container">
+            <h3 className="survey-title">
+              Any specific ideas you already have?
+            </h3>
+            <p
+              style={{
+                textAlign: "center",
+                color: "#666",
+                fontSize: "14px",
+                margin: "-10px 0 0 0",
+              }}
+            >
+              E.g. "I want to make pasta", "give me a recipe that uses chicken",
+              "I want to make a high protein vegetarian curry"
+            </p>
+            <textarea
+              className="survey-textarea"
+              placeholder="Type here..."
+              value={surveyData.ideas}
+              onChange={(e) =>
+                setSurveyData({ ...surveyData, ideas: e.target.value })
+              }
+            />
+            <button
+              className="survey-primary-button"
               onClick={() => handleFinalize()}
             >
               Finish & Get Recipes
@@ -165,13 +216,13 @@ const ChatSurvey = ({
             <div className="survey-nav-container">
               <button
                 className="survey-nav-link"
-                onClick={() => setSurveyStep(2)}
+                onClick={() => setSurveyStep(3)}
               >
                 Back
               </button>
               <button
                 className="survey-nav-link survey-skip-link"
-                onClick={() => handleFinalize({ ...surveyData, dietary: "" })}
+                onClick={() => handleFinalize({ ...surveyData, ideas: "" })}
               >
                 Skip
               </button>
